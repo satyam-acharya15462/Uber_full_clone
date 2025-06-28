@@ -1,0 +1,24 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "keywords": [
+    "javascript",
+    "express",
+    "node.js",
+    "chai aur satyam"
+  ],
+  "scripts": {
+    "dev": "nodemon -r dotenv/config --experimental-json-modules src/server.js"
+  },
+  "author": "satyam-acharya",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.0.0",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10"
+  }
+}
