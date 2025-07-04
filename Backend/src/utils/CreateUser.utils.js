@@ -14,6 +14,7 @@ const CreateUser = async({email, firstName , lastName ,password})=>{
         throw new ApiError("the user already exsists in the database",400);
     }
 
+    User.hashPassword(password);
 
     const user = await User.create({
         fullName:{
@@ -23,6 +24,7 @@ const CreateUser = async({email, firstName , lastName ,password})=>{
         password,
         email,
     })
+
 
     return user
 }

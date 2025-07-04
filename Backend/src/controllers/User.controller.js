@@ -14,7 +14,7 @@ const Register_User =  asyncHandler(async (req , res , next)=>{
    
   const {fullName , email , password} = req.body
 
-   User.hashPassword(password);
+   
 
   const user = await CreateUser({
     firstName : fullName.firstName,
