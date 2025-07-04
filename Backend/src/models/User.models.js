@@ -6,19 +6,19 @@ const UserSchema = new mongoose.Schema({
   fullName:{
     firstName:{
         type:String,
-        require:true,
+        required:true,
         minlength:[3,"the firstname should be at the verleast 3 charecter"]
     },
-    lasteName:{
+    lastName:{
         type:String,
-        require:true,
+        required:true,
         minlength:[3,`the last name should be at the very least 3 charecter`]
     },
   },
 
   email:{
         type:String,
-        require:true,
+        required:true,
         unique:true,
         minlength:[5,"the email should be at the verleast 3 charecter"]
   },
@@ -35,6 +35,8 @@ const UserSchema = new mongoose.Schema({
   }
 
 },{timestamps:true})
+
+
 
 UserSchema.methods.generateAuthenticationToken = function() {
     const Token = jwt.sign({_id:this._id} , process.env.JWT_SECRET)

@@ -1,12 +1,21 @@
-import { User} from "../models/User.models";
-import { ApiError } from "./ApiError.utils";
+import { User} from "../models/User.models.js";
+import { ApiError } from "./ApiError.utils.js";
 
-CreateUser = async({email, firstName , lastName ,password})=>{
+const CreateUser = async({email, firstName , lastName ,password})=>{
     if ([email,firstName,lastName,password].some((files)=>(files.trim() === ""))) {
         throw new ApiError("please enter the required filed , the fields are invalid",404);
     }
 
-    const user = User.create({
+    const exsisting_user = await User.findOne({
+        $or : [{email}, {firstName} ,{lastName}]
+    })
+
+    if(exsisting_user){
+        throw new ApiError("the user already exsists in the database",400);
+    }
+
+
+    const user = await User.create({
         fullName:{
            firstName,
            lastName

@@ -4,15 +4,14 @@ dotenv.config({
 })
 import express from "express"
 import cors from "cors"
+import {router} from "../src/routes/User.routes"
 
 const app = express()
 
 app.use(cors());
 
-
-app.get("/" , (req , res)=>{
-   res.send("hello world")
-})
-
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+app.use("/users/v3/register_user" , router)
 
 export default app
