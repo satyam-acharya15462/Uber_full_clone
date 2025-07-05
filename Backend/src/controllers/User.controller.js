@@ -40,6 +40,31 @@ const Token = create_User.generateAuthenticationToken()
 })
 
 
+const Login_User = asyncHandler(async (req,res,next) => {
+    const error = validationResult(req)
+    if (!error.isEmpty()) {
+      return res.status(400).json(new ApiError(400 , error.array(), "the user have writen the password or email incorrectly" , {error:error.array()}))
+    }
+
+    const {email , password} = req.body
+
+    const Find_user = await User.findOne({email}).select("+password")
+
+   if (!Find_user) {
+      return res.status(401).json(new ApiError(401 , "maybe invalid email or Password"))
+   }
+   
+   const user_is_match = await Find_user.ComparePassword(password)
+   
+   if (!user_is_match) {
+      return res.status(400).json(new ApiError(400 , "the user password or email is wrong please try again"))
+   }
+
+   const Token = await Find_user.generateAuthenticationToken()
+
+   res.status(200).json(new ApiResponse(200 , [Token , Find_user] , "the user have been logind successfully"))
+    
+})
 
 
-export {Register_User}
+export {Register_User , Login_User}
