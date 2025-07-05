@@ -2,8 +2,8 @@ import { User} from "../models/User.models.js";
 import { ApiError } from "./ApiError.utils.js";
 
 const CreateUser = async({email, firstName , lastName ,password})=>{
-    if ([email,firstName,lastName,password].some((files)=>(files.trim() === ""))) {
-        throw new ApiError("please enter the required filed , the fields are invalid",404);
+    if ([email, firstName, lastName, password].some((field) => typeof field !== "string" || field.trim() === "")) {
+        throw new ApiError("please enter the required field, the fields are invalid", 404);
     }
 
     const exsisting_user = await User.findOne({
@@ -14,7 +14,6 @@ const CreateUser = async({email, firstName , lastName ,password})=>{
         throw new ApiError("the user already exsists in the database",400);
     }
 
-    User.hashPassword(password);
 
     const user = await User.create({
         fullName:{

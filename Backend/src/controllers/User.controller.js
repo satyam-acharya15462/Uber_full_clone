@@ -14,13 +14,13 @@ const Register_User =  asyncHandler(async (req , res , next)=>{
    
   const {fullName , email , password} = req.body
 
-   
+   const hashpassword = await User.hashPassword(password)
 
   const user = await CreateUser({
     firstName : fullName.firstName,
     lastName : fullName.lastName,
     email,
-    password 
+    password : hashpassword
   })
 
   const create_User = await User.findById((user)._id).select(
@@ -38,6 +38,8 @@ const Token = create_User.generateAuthenticationToken()
   )
 
 })
+
+
 
 
 export {Register_User}
