@@ -17,5 +17,9 @@ router.route("/login").post([
    body("password").isLength({min:6}).withMessage("the password should be at the very least of 6 charecter")
 ],Login_User)
 
+router
+.route("/profile")
+.get()
+
 export {router}
 

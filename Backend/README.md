@@ -1,9 +1,9 @@
-# User Registration API Documentation
+# User Registration & Login API Documentation
 
-## Endpoint
+## User Registration Endpoint
 
 ```
-POST /users/v3/register_user/register
+POST /users/v3/api/register
 ```
 
 ## Description
@@ -48,15 +48,18 @@ Send a JSON object with the following structure:
   {
     "statuscode": 200,
     "data": [
-      "JWT_TOKEN_STRING",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...", // JWT token
       {
-        "_id": "user_id",
+        "_id": "64f1c2e5e4b0a2a1b2c3d4e5",
         "fullName": {
           "firstName": "John",
           "lastName": "Doe"
         },
         "email": "john.doe@example.com",
-        // ...other user fields (excluding password)
+        "socketId": null,
+        "createdAt": "2024-07-06T12:34:56.789Z",
+        "updatedAt": "2024-07-06T12:34:56.789Z",
+        "__v": 0
       }
     ],
     "message": "the user has been successfully registerd in the database",
@@ -76,8 +79,7 @@ Send a JSON object with the following structure:
         "msg": "the firstname should be at the very least 3 charecters",
         "param": "fullName.firstName",
         "location": "body"
-      },
-      // ...other validation errors
+      }
     ]
   }
   ```
@@ -115,7 +117,7 @@ Send a JSON object with the following structure:
 ## Example cURL Request
 
 ```sh
-curl -X POST http://localhost:8000/users/v3/register_user/register \
+curl -X POST http://localhost:8000/users/v3/api/register \
   -H "Content-Type: application/json" \
   -d '{
     "fullName": {
@@ -129,8 +131,154 @@ curl -X POST http://localhost:8000/users/v3/register_user/register \
 
 ---
 
-## Notes
+## Login Endpoint
 
-- All fields are required.
+```
+POST /users/v3/api/login
+```
+
+### Description
+
+This endpoint allows an existing user to log in by providing their email and password.  
+If the credentials are correct, it returns the user data (excluding the password) and a JWT authentication token.
+
+---
+
+### Request Body
+
+Send a JSON object with the following structure:
+
+```json
+{
+  "email": "john.doe@example.com",
+  "password": "yourpassword"
+}
+```
+
+#### Field Requirements
+
+- `email` (string, valid email format) – required
+- `password` (string, min 6 characters) – required
+
+---
+
+### Responses
+
+#### Success
+
+- **Status Code:** `200 OK`
+- **Body:**
+  ```json
+  {
+    "statuscode": 200,
+    "data": [
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...", // JWT token
+      {
+        "_id": "64f1c2e5e4b0a2a1b2c3d4e5",
+        "fullName": {
+          "firstName": "John",
+          "lastName": "Doe"
+        },
+        "email": "john.doe@example.com",
+        "socketId": null,
+        "createdAt": "2024-07-06T12:34:56.789Z",
+        "updatedAt": "2024-07-06T12:34:56.789Z",
+        "__v": 0
+      }
+    ],
+    "message": "the user have been logind successfully",
+    "success": true,
+    "errors": []
+  }
+  ```
+
+#### Validation Error
+
+- **Status Code:** `400 Bad Request`
+- **Body:**
+  ```json
+  {
+    "statuscode": 400,
+    "data": [
+      {
+        "msg": "invalid Email",
+        "param": "email",
+        "location": "body"
+      },
+      {
+        "msg": "the password should be at the very least of 6 charecter",
+        "param": "password",
+        "location": "body"
+      }
+    ],
+    "message": "the user have writen the password or email incorrectly",
+    "success": false,
+    "errors": [
+      // ...validation errors
+    ]
+  }
+  ```
+
+#### Invalid Credentials
+
+- **Status Code:** `401 Unauthorized`
+- **Body:**
+  ```json
+  {
+    "statuscode": 401,
+    "data": null,
+    "message": "maybe invalid email or Password",
+    "success": false,
+    "errors": []
+  }
+  ```
+
+#### Wrong Password
+
+- **Status Code:** `400 Bad Request`
+- **Body:**
+  ```json
+  {
+    "statuscode": 400,
+    "data": null,
+    "message": "the user password or email is wrong please try again",
+    "success": false,
+    "errors": []
+  }
+  ```
+
+#### Server Error
+
+- **Status Code:** `500 Internal Server Error`
+- **Body:**
+  ```json
+  {
+    "statuscode": 500,
+    "data": null,
+    "message": "while logging in a user something went wrong",
+    "success": false,
+    "errors": []
+  }
+  ```
+
+---
+
+### Example cURL Request
+
+```sh
+curl -X POST http://localhost:8000/users/v3/api/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "john.doe@example.com",
+    "password": "yourpassword"
+  }'
+```
+
+---
+
+### Notes
+
+- All fields are required for both registration and login.
 - The password is securely hashed before storage.
-- The response includes a JWT token
+- The response includes a JWT token for authentication.
+- Password is never returned in the response.
