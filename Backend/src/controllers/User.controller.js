@@ -62,9 +62,12 @@ const Login_User = asyncHandler(async (req,res,next) => {
 
    const Token = await Find_user.generateAuthenticationToken()
 
-   res.status(200).json(new ApiResponse(200 , [Token , Find_user] , "the user have been logind successfully"))
+   res.status(200).json(new ApiResponse(200 , [Token , Find_user] , "the user have been logined successfully"))
     
 })
 
+const get_User_profile = asyncHandler(async (req , res , next)=>{
+res.status(200).json(new ApiResponse(200 , req.user , "the user profile have been create succesfully"))
+})
 
-export {Register_User , Login_User}
+export {Register_User , Login_User , get_User_profile}
