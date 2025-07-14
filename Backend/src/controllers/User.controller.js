@@ -4,6 +4,7 @@ import CreateUser from "../utils/CreateUser.utils.js";
 import { validationResult } from "express-validator";
 import ApiResponse from "../utils/ApiResponse.utils.js";
 import { ApiError } from "../utils/ApiError.utils.js";
+import BlackListToken from "../models/blackListToken.model.js";
 
 
 const Register_User =  asyncHandler(async (req , res , next)=>{
@@ -62,6 +63,8 @@ const Login_User = asyncHandler(async (req,res,next) => {
 
    const Token = await Find_user.generateAuthenticationToken()
 
+   res.cookie("token" , Token)
+
    res.status(200).json(new ApiResponse(200 , [Token , Find_user] , "the user have been logined successfully"))
     
 })
@@ -70,4 +73,13 @@ const get_User_profile = asyncHandler(async (req , res , next)=>{
 res.status(200).json(new ApiResponse(200 , req.user , "the user profile have been create succesfully"))
 })
 
-export {Register_User , Login_User , get_User_profile}
+const logout = asyncHandler(async (req , res , next)=>{
+   res.clearCookie("token");
+  const token = req.cookies.token || (req.headers.authorization && req.headers.authorization.split(" ")[1]);
+
+   await BlackListToken.create({token})
+
+   res.status(200).json(new ApiResponse(200, null, "User logged out successfully"))
+})
+
+export {Register_User , Login_User , get_User_profile, logout}

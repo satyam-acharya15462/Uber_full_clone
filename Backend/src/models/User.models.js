@@ -39,7 +39,11 @@ const UserSchema = new mongoose.Schema({
 
 
 UserSchema.methods.generateAuthenticationToken = function() {
-    const Token = jwt.sign({_id:this._id} , process.env.JWT_SECRET)
+    const Token = jwt.sign(
+      { _id: this._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "24h" }
+    )
     return Token
 }
 

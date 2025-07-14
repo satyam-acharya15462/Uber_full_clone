@@ -1,6 +1,6 @@
 import express from "express"
 const router = express.Router()
-import { Register_User , Login_User , get_User_profile } from "../controllers/User.controller.js"
+import { Register_User , Login_User , get_User_profile , logout} from "../controllers/User.controller.js"
 import {validationResult, body} from 'express-validator'
 import auth_User from "../middleware/auth.middleware.js"
 
@@ -21,6 +21,10 @@ router.route("/login").post([
 router
 .route("/profile")
 .get(auth_User , get_User_profile)
+
+router
+.route("/logout")
+.get(auth_User , logout)
 
 export {router}
 
