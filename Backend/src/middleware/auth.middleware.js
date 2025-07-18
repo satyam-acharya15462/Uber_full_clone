@@ -1,7 +1,7 @@
 import { User } from "../models/User.models.js";
 import  bcrypt from "bcrypt"
 import asyncHandler from "../utils/AsyncHandler.utils.js";
-import { ApiError } from "../utils/ApiError.utils.js";
+import  ApiError  from "../utils/ApiError.utils.js";
 import jwt from "jsonwebtoken"
 
 const auth_User = asyncHandler(async(req , res , next )=>{

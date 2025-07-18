@@ -1,5 +1,5 @@
 import { User} from "../models/User.models.js";
-import { ApiError } from "./ApiError.utils.js";
+import  ApiError  from "./ApiError.utils.js";
 
 const CreateUser = async({email, firstName , lastName ,password})=>{
     if ([email, firstName, lastName, password].some((field) => typeof field !== "string" || field.trim() === "")) {

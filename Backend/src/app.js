@@ -4,8 +4,8 @@ dotenv.config({
 })
 import express from "express"
 import cors from "cors"
-import {router} from "../src/routes/User.routes.js"
-import { Register_Captain } from "../src/controllers/captain.controller.js"
+import user_routes from "../src/routes/User.routes.js"
+import captain_routes from "../src/routes/captain.routes.js"
 import cookie_parser from "cookie-parser"
 
 const app = express()
@@ -15,8 +15,9 @@ app.use(cors());
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cookie_parser())
-app.use("/users/v3/api" , router)
-app.use("/captain/v3/api" , Register_Captain)
+app.use("/users/v3/api" , user_routes)
+app.use("/captain/v3/api" ,captain_routes)
+
 
 // Global error handler for JSON parsing errors
 app.use((error, req, res, next) => {

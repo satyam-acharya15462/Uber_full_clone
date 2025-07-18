@@ -25,6 +25,7 @@ const captainSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
+        minlength:[6,"the password must be six charecter long"],
     },
 
  

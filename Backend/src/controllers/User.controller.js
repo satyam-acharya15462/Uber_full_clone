@@ -3,7 +3,7 @@ import  asyncHandler  from "../utils/AsyncHandler.utils.js";
 import CreateUser from "../utils/CreateUser.utils.js";
 import { validationResult } from "express-validator";
 import ApiResponse from "../utils/ApiResponse.utils.js";
-import { ApiError } from "../utils/ApiError.utils.js";
+import  ApiError  from "../utils/ApiError.utils.js";
 import BlackListToken from "../models/blackListToken.model.js";
 
 

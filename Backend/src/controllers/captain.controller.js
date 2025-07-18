@@ -34,7 +34,7 @@ const Register_Captain = asyncHandler(async(req,res,next)=>{
   const create_captain = await Captain.findById((captain)._id).select("-password")
 
   if (!create_captain) {
-     throw new ApiError("somthing went wrong while registering the cptain",500)
+     return new ApiError("somthing went wrong while registering the cptain",500)
   }
 
   // generating authentication Token 
@@ -50,16 +50,28 @@ const Login_captain = asyncHandler(async()=>{
 
    const error = validationResult(req)
    if(!error.isEmpty()){
-      res.status(400).json(new ApiError("the user deatail is not valid" , 400))
+     return res.status(400).json(new ApiError("the user deatail is not valid" , 400))
    }
 
    const captain = await Captain.findOne({email}).select("-Password")
 
    if(!captain){
-      res.status(400).json("captain is not registerd in the data base", 400)
+     return res.status(400).json("captain is not registerd in the data base", 400)
    }
 
-   
+   const compare_captain = await captain.comparePassword(password)
+
+   if(!compare_captain){
+      return res.status(400).json(new ApiError("the password of the captain is invalid" , 400))
+   }
+
+   const Token = await captain.generateAuthenticationToken()
+
+   res.cookie('token' , Token)
+
+   res.status(200).json(
+      new ApiResponse("the captain has been login successfully" , [Token , captain], 200)
+   )
 })
 
-export {Register_Captain}
+export {Register_Captain , Login_captain}

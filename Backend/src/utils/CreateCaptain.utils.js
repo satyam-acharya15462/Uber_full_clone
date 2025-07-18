@@ -1,5 +1,5 @@
 import {Captain} from "../models/captain.model.js";
-import { ApiError } from "./ApiError.utils.js";
+import  ApiError  from "./ApiError.utils.js";
 
 const CreateCaptain = async({email,firstname,lastname,password,colore,plate,capacity,vericle_type})=>{
    if ([email,firstname,lastname,password,colore,plate,vericle_type].some((values)=> typeof values !== String || values.trim() === "") || capacity > 1) {

@@ -26,5 +26,5 @@ router
 .route("/logout")
 .get(auth_User , logout)
 
-export {router}
+export default router
 
