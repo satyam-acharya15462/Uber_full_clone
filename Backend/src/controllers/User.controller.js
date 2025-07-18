@@ -8,13 +8,14 @@ import BlackListToken from "../models/blackListToken.model.js";
 
 
 const Register_User =  asyncHandler(async (req , res , next)=>{
+  
+  const {fullName , email , password} = req.body
+  
   const error = validationResult(req)
   if (!error.isEmpty()) {
-  return res.status(400).json({error:error.array()})
+  return res.status(400).json(new ApiError("Validation Error", error.array(), 400));
   }
-   
-  const {fullName , email , password} = req.body
-
+  
    const hashpassword = await User.hashPassword(password)
 
   const user = await CreateUser({

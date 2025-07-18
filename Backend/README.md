@@ -276,6 +276,175 @@ curl -X POST http://localhost:8000/users/v3/api/login \
 
 ---
 
+## Get User Profile Endpoint
+
+```
+GET /users/v3/api/profile
+```
+
+### Description
+
+This endpoint returns the authenticated user's profile information.  
+It requires a valid JWT token to be sent in the `Authorization` header as a Bearer token or as a `token` cookie.
+
+---
+
+### Authentication
+
+- **Required:** Yes (JWT token)
+- **How to send:**  
+  - As a cookie named `token`  
+  - Or as a header:  
+    ```
+    Authorization: Bearer <JWT_TOKEN>
+    ```
+
+---
+
+### Responses
+
+#### Success
+
+- **Status Code:** `200 OK`
+- **Body:**
+  ```json
+  {
+    "statuscode": 200,
+    "data": {
+      "_id": "64f1c2e5e4b0a2a1b2c3d4e5",
+      "fullName": {
+        "firstName": "John",
+        "lastName": "Doe"
+      },
+      "email": "john.doe@example.com",
+      "socketId": null,
+      "createdAt": "2024-07-06T12:34:56.789Z",
+      "updatedAt": "2024-07-06T12:34:56.789Z",
+      "__v": 0
+    },
+    "message": "the user profile have been create succesfully",
+    "success": true,
+    "errors": []
+  }
+  ```
+
+#### Unauthorized
+
+- **Status Code:** `401 Unauthorized`
+- **Body:**
+  ```json
+  {
+    "statuscode": 401,
+    "data": null,
+    "message": "Unauthorized access",
+    "success": false,
+    "errors": []
+  }
+  ```
+
+#### Token Missing
+
+- **Status Code:** `402 Payment Required` (used here for missing token)
+- **Body:**
+  ```json
+  {
+    "statuscode": 400,
+    "data": null,
+    "message": "Access denied as token was inavilable",
+    "success": false,
+    "errors": []
+  }
+  ```
+
+---
+
+## Logout Endpoint
+
+```
+GET /users/v3/api/logout
+```
+
+### Description
+
+This endpoint logs out the authenticated user by clearing the authentication token cookie and blacklisting the token.  
+It requires a valid JWT token to be sent in the `Authorization` header as a Bearer token or as a `token` cookie.
+
+---
+
+### Authentication
+
+- **Required:** Yes (JWT token)
+- **How to send:**  
+  - As a cookie named `token`  
+  - Or as a header:  
+    ```
+    Authorization: Bearer <JWT_TOKEN>
+    ```
+
+---
+
+### Responses
+
+#### Success
+
+- **Status Code:** `200 OK`
+- **Body:**
+  ```json
+  {
+    "statuscode": 200,
+    "data": null,
+    "message": "User logged out successfully",
+    "success": true,
+    "errors": []
+  }
+  ```
+
+#### Unauthorized
+
+- **Status Code:** `401 Unauthorized`
+- **Body:**
+  ```json
+  {
+    "statuscode": 401,
+    "data": null,
+    "message": "Unauthorized access",
+    "success": false,
+    "errors": []
+  }
+  ```
+
+#### Token Missing
+
+- **Status Code:** `402 Payment Required` (used here for missing token)
+- **Body:**
+  ```json
+  {
+    "statuscode": 400,
+    "data": null,
+    "message": "Access denied as token was inavilable",
+    "success": false,
+    "errors": []
+  }
+  ```
+
+---
+
+### Example cURL Requests
+
+**Get Profile:**
+```sh
+curl -X GET http://localhost:8000/users/v3/api/profile \
+  -H "Authorization: Bearer <JWT_TOKEN>"
+```
+
+**Logout:**
+```sh
+curl -X GET http://localhost:8000/users/v3/api/logout \
+  -H "Authorization: Bearer <JWT_TOKEN>"
+```
+
+---
+
 ### Notes
 
 - All fields are required for both registration and login.
