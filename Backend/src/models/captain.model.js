@@ -19,6 +19,7 @@ const captainSchema = new mongoose.Schema({
         unique: true,
         lowercase: true,
         match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email address'],
+        index:true
     },
 
 
@@ -65,14 +66,12 @@ const captainSchema = new mongoose.Schema({
   },
 
   location: {
-    type: {
-      type: String,
-      enum: ['Point'], // 'location.type' must be 'Point'
-      required: true
+    lat:{
+        type:Number
     },
-    coordinates: {
-      type: [Number], // [longitude, latitude]
-      required: true
+
+    long:{
+        type:Number
     }
   }
 }, { timestamps: true }); 
