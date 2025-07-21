@@ -2,7 +2,7 @@ import express from "express"
 const router = express.Router()
 import { Register_User , Login_User , get_User_profile , logout} from "../controllers/User.controller.js"
 import {validationResult, body} from 'express-validator'
-import auth_User from "../middleware/auth.middleware.js"
+import auth_User from "../middleware/auth.middleware.user.js"
 
 router
 .route("/register")
