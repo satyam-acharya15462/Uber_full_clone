@@ -79,8 +79,8 @@ const Login_captain = asyncHandler(async(req  , res , next)=>{
 })
 
 
-const captain_profile = (req ,res , next) => {
+const captain_profile =asyncHandler( async (req ,res , next)=>{
+   res.status(200).json(new ApiResponse(200 , req.captain , "the user profile have been created successfully" ))
+})
 
-}
-
-export {Register_Captain , Login_captain}
+export {Register_Captain , Login_captain , captain_profile}
