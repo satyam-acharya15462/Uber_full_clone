@@ -4,6 +4,7 @@ import asyncHandler from "../utils/AsyncHandler.utils.js";
 import ApiResponse from "../utils/ApiResponse.utils.js";
 import ApiError from "../utils/ApiError.utils.js";
 import { Captain } from "../models/captain.model.js";
+import BlackListToken from "../models/blackListToken.model.js";
 
 const Register_Captain = asyncHandler(async(req,res,next)=>{
    // validating info comming from the body 
@@ -74,7 +75,7 @@ const Login_captain = asyncHandler(async(req  , res , next)=>{
    const captainResponse = await Captain.findById(captain._id).select("-password")
 
    res.status(200).json(
-      new ApiResponse("the captain has been login successfully" , [Token , captainResponse], 200)
+      new ApiResponse("the captain has been login successfully" , [Token , captainResponse], 200, true)
    )
 })
 
@@ -83,4 +84,14 @@ const captain_profile =asyncHandler( async (req ,res , next)=>{
    res.status(200).json(new ApiResponse(200 , req.captain , "the user profile have been created successfully" ))
 })
 
-export {Register_Captain , Login_captain , captain_profile}
+const log_out_captain = asyncHandler(async (req , res , next) => {
+   res.clearCookie("token");
+
+   const token = req.cookies.token || (req.headers.authorization && req.headers.authorization.split(" ")[1]);
+
+   await BlackListToken.create({ token })
+
+   res.status(200).json(new ApiResponse(200 , "the captain have been logout_successfully", true))
+})
+
+export {Register_Captain , Login_captain , captain_profile ,log_out_captain}

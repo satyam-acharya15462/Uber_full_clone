@@ -1,6 +1,6 @@
 import express from 'express';
 import { body } from 'express-validator';
-import  { Register_Captain , Login_captain , captain_profile} from '../controllers/captain.controller.js';
+import  { Register_Captain , Login_captain , captain_profile , log_out_captain} from '../controllers/captain.controller.js';
 const router = express.Router();
 import auth_captain from '../middleware/auth.middleware.captain.js';
 
@@ -28,6 +28,10 @@ router
 router
 .route(`/profile`)
 .get(auth_captain,captain_profile)
+
+router
+.route('/logout')
+.get(auth_captain , log_out_captain)
 
 
 export default router;
