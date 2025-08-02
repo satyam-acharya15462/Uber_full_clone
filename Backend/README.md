@@ -828,3 +828,72 @@ curl -X POST http://localhost:8000/users/v3/api/login_captain \
 - The response includes a JWT token for authentication.
 - Password is never returned in the response.
 - **IMPORTANT:** Several critical bugs need to be fixed before these endpoints can function properly.
+
+---
+
+# Captain Module: Implementation Details & File Documentation
+
+Below are summaries of the main backend files that implement the Captain registration, authentication, and profile functionality. This section is intended for developers who want to understand or extend the backend logic beyond the API endpoints.
+
+## File: `src/routes/captain.routes.js`
+**Purpose:**
+Defines the Express routes for captain registration, login, profile, and logout. Applies validation and authentication middleware.
+
+**Main Endpoints:**
+- `POST /register` — Register a new captain (with input validation)
+- `POST /login` — Login for existing captain (with input validation)
+- `GET /profile` — Get captain profile (requires authentication)
+- `GET /logout` — Logout captain (requires authentication)
+
+**Key Notes:**
+- Uses `express-validator` for input validation.
+- Uses `auth_captain` middleware to protect profile and logout routes.
+- Imports controller functions from `captain.controller.js`.
+
+## File: `src/middleware/auth.middleware.captain.js`
+**Purpose:**
+Express middleware to authenticate captain requests using JWT tokens (from cookie or header).
+
+**How it works:**
+- Extracts token from cookie or `Authorization` header.
+- Checks for token blacklisting (logout support).
+- Verifies JWT and loads captain from DB.
+- Attaches the captain to `req.captain` if authenticated.
+
+**Security Notes:**
+- Returns 402 if token is missing, blacklisted or invalid.
+- Uses `ApiError` class for consistent error responses.
+- Relies on `Captain` model and `jsonwebtoken`.
+
+## File: `src/utils/CreateCaptain.utils.js`
+**Purpose:**
+Utility function to create and validate a new Captain document in the database.
+
+**Main Function:**
+- `CreateCaptain({ email, firstname, lastname, password, color, plate, capacity, vehicle_type })`
+
+**How it works:**
+- Validates all required fields (types and non-empty).
+- Checks for existing captain by email.
+- Creates new Captain with nested `fullName` and `vehicle` fields.
+- Throws `ApiError` on validation or creation failure.
+
+## File: `src/controllers/captain.controller.js`
+**Purpose:**
+Defines controller functions for captain registration, login, profile retrieval, and logout. Handles request validation, password hashing, token generation, and response formatting.
+
+**Main Functions:**
+- `Register_Captain` — Validates input, hashes password, creates captain, returns JWT and captain data.
+- `Login_captain` — Validates credentials, checks password, generates JWT, sets cookie, returns captain data.
+- `captain_profile` — Returns authenticated captain's profile.
+- `log_out_captain` — Blacklists JWT token and clears cookie.
+
+**Implementation Notes:**
+- Uses `asyncHandler` for async error handling.
+- Uses `ApiResponse` and `ApiError` for consistent API responses.
+- Security: Password is always hashed and never returned. Token is set as cookie, but consider adding security options (`httpOnly`, `secure`, etc.).
+- Relies on `CreateCaptain` utility for registration logic.
+
+---
+
+**For more details, see the code comments and function signatures in each respective file.**
