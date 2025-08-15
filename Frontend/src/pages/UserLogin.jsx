@@ -11,7 +11,6 @@ const UserLogin = () => {
       Email : Email,
       Password : Password
     })
-    console.log(UserData)
     setEmail('')
     setPassword('')
    }
@@ -58,7 +57,7 @@ const UserLogin = () => {
        <p className='text-center mt-4'>New here? <Link className='text-blue-800' to='/signUp'>Create New Account</Link></p>
     </div> 
     <div>
-    <Link to='captain-login' className='bg-[#2E7D32] flex justify-center items-center text-white font-semibold mt-1 rounded px-2 py-2  w-full text-lg placeholder:text-base'>sign in as captain</Link>
+    <Link to='/captain-login' className='bg-[#2E7D32] flex justify-center items-center text-white font-semibold mt-1 rounded px-2 py-2  w-full text-lg placeholder:text-base'>sign in as captain</Link>
     </div>
     </div>
   )
