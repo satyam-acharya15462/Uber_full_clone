@@ -18,7 +18,7 @@ const CaptainLogin = () => {
   return (
     <div className='p-7 flex justify-between flex-col h-screen'>
     <div>
-    <img className="w-18 mb-5 " src='https://imgs.search.brave.com/HM-OZ1f4FMcRRrVhLAj6RAbyLKJ2uL85DXqJXmXE1eU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9sb2dv/ZGl4LmNvbS9sb2dv/LzgxMTEyLmpwZw' alt="Uber Logo" />
+    <img className="w-10 mb-3 " src='https://imgs.search.brave.com/HM-OZ1f4FMcRRrVhLAj6RAbyLKJ2uL85DXqJXmXE1eU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9sb2dv/ZGl4LmNvbS9sb2dv/LzgxMTEyLmpwZw' alt="Uber Logo" />
       
       <form onSubmit={(e)=>{
         SumbitHandler(e)
