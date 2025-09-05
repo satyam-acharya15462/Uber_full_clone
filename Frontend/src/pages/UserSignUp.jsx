@@ -25,9 +25,9 @@ const UserSignUp = () => {
       return
     }
     
-    // Process registration
+  // Process registration
   setUserData({
-    userName:{   
+    FullName:{   
       firstName : firstName,
       lastName : lastName,
    },

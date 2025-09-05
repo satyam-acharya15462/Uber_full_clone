@@ -28,7 +28,7 @@ const CaptainSignUp = () => {
       
       // Process registration
     setUserData({
-      userName:{   
+      FullName:{   
         firstName : firstName,
         lastName : lastName,
      },
@@ -113,9 +113,9 @@ const CaptainSignUp = () => {
       </form>
       
       <p className='text-center mt-2'>
-        Want to join a fleet? 
-        <Link className='text-blue-600 font-semibold ml-1' to='/captain-signup'>
-          Register as Captain
+        Want to ride a fleet? 
+        <Link className='text-blue-600 font-semibold ml-1' to='/signUp'>
+          Register as User
         </Link>
       </p>
     </div>
