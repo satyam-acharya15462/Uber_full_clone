@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import UberLogo from '../assets/Uber_logo_2018.png'
+import React, { useState, useContext, } from 'react';
+import { Link, useNavigate} from 'react-router-dom';
+import UberLogo from '../assets/Uber_logo_2018.png';
+import axios from 'axios';
+import { UserDataContext } from '../context/UserDataContext';
 
 const UserSignUp = () => {
   // Simple form state - direct two-way binding
@@ -8,35 +10,36 @@ const UserSignUp = () => {
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [UserData, setUserData] = useState({})
   
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    
-    // Simple validation
-    if (!firstName.trim() || !lastName.trim() || !email.trim() || !password.trim()) {
-      alert('Please fill all fields')
-      return
-    }
-    
-    if (password.length < 8) {
-      alert('Password must be at least 8 characters')
-      return
-    }
-    
-  // Process registration
-  setUserData({
-    FullName:{   
-      firstName : firstName,
-      lastName : lastName,
-   },
-   email:email,
-   password:password
-  })
-   
+  const navigate = useNavigate()
+  const [User, setUser] = useContext(UserDataContext)
 
+  // Handle form submission
+  const  handleSubmit = async (e) => {
+    e.preventDefault()
+  
+  // Process registration
+  const NewUser = {
+      fullName:{   
+        firstName : firstName,
+        lastName : lastName,
+     },
+     email:email,
+     password:password
+  }
+
+  // send data to the server through axios
+
+  const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/v3/api/register` , NewUser)
+  
+  if(response.status === 201){
+    const data = response.data
     
+    setUser(data.User)
+
+    navigate('/home')
+  }
+  
     // Reset form
     setFirstName('')
     setLastName('')
@@ -117,6 +120,12 @@ const UserSignUp = () => {
           <Link className='text-blue-600 font-semibold ml-1' to='/captain-signup'>
             Register as Captain
           </Link>
+        </p>
+        <p className='text-center mt-2'>
+          Already have an account?
+       <Link className='text-blue-600 font-semibold ml-1' to='/login'>
+       Login as User
+       </Link>
         </p>
       </div>
       

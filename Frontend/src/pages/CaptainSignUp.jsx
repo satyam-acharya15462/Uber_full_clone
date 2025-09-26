@@ -47,15 +47,15 @@ const CaptainSignUp = () => {
   
     }
   return (
-    <div className='p-7 flex justify-between flex-col min-h-screen'>
+    <div className='p-5 flex justify-between flex-col min-h-screen'>
     <div>
-      <img className="w-12 mb-5"  src='https://imgs.search.brave.com/HM-OZ1f4FMcRRrVhLAj6RAbyLKJ2uL85DXqJXmXE1eU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9sb2dv/ZGl4LmNvbS9sb2dv/LzgxMTEyLmpwZw' alt="Uber Logo" />
+      <img className="w-12 mb-3"  src='https://imgs.search.brave.com/HM-OZ1f4FMcRRrVhLAj6RAbyLKJ2uL85DXqJXmXE1eU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9sb2dv/ZGl4LmNvbS9sb2dv/LzgxMTEyLmpwZw' alt="Uber Logo" />
       
       <h2 className='text-2xl font-bold mb-6'>Create your account</h2>
       
       <form onSubmit={handleSubmit}>
         {/* Name Fields */}
-        <div className='flex gap-4 mb-4'>
+        <div className='flex gap-4 mb-3'>
           <div className='flex-1'>
             <h3 className='text-lg font-semibold mb-2'>First Name</h3>
             <input
@@ -107,7 +107,7 @@ const CaptainSignUp = () => {
           />
         </div>
         
-        <button className='bg-black text-white font-semibold rounded px-3 py-3 w-full text-lg hover:bg-gray-800 transition-colors'>
+        <button className='bg-black text-white font-semibold rounded px-3 py-2 w-full text-lg hover:bg-gray-800 transition-colors'>
           Create Account
         </button>
       </form>
@@ -117,6 +117,10 @@ const CaptainSignUp = () => {
         <Link className='text-blue-600 font-semibold ml-1' to='/signUp'>
           Register as User
         </Link>
+      </p>
+      <p className='text-center mt-2'>
+        already have an account?
+          <Link className='text-blue-600 font-semibold ml-1' to='/captain-login'> Login as captain </Link>
       </p>
     </div>
     
