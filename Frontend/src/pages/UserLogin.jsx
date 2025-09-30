@@ -1,18 +1,36 @@
-import React , {useState} from 'react'
+import React , {useContext, useState , } from 'react'
 import UberLogo from '../assets/Uber_logo_2018.png'
-import { Link ,  } from 'react-router-dom'
-const UserLogin = () => {
+import { Link , useNavigate} from 'react-router-dom'
+import { UserDataContext } from '../context/UserDataContext';
+import axios from 'axios';
+
+const UserLogin =  () => {
    const [Email, setEmail] = useState('')
    const [Password , setPassword] = useState('')
-   const [UserData, setUserData] = useState({})
-   const SumbitHandler = (e) => {
+  
+
+   const navigate = useNavigate()
+  const [User , setUserData] = useContext(UserDataContext)
+
+   const SumbitHandler = async (e) => {
     e.preventDefault()
-    setUserData({
-      Email : Email,
-      Password : Password
-    })
-    setEmail('')
+   const exsisting_user_login = {
+    Email : Email , 
+    Password : Password
+  }
+  
+  
+   const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/v3/api/login`, exsisting_user_login)
+
+   if(response.status === 200){
+    const data  = response.data
+    setUserData(data.User)
+    
+     navigate(`/home`)
+    }
+    
     setPassword('')
+    setEmail('')
    }
 
   return (
