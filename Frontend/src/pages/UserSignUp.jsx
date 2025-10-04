@@ -31,14 +31,17 @@ const UserSignUp = () => {
   // send data to the server through axios
 
   const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/v3/api/register` , NewUser)
+  console.log(response.data)
   
   if(response.status === 200){
     const data = response.data
     
     setUser(data.User)
-
+    localStorage.setItem('token' , data.data.Token)
+    console.log(data[0])
     navigate('/home')
   }
+
   
     // Reset form
     setFirstName('')

@@ -36,7 +36,7 @@ if(!create_User){
 const Token = create_User.generateAuthenticationToken()
 
   res.status(200).json(
-    new ApiResponse(200,[Token,create_User],"the user has been successfully registerd in the database")
+    new ApiResponse(200,{Token,create_User},"the user has been successfully registerd in the database")
   )
 
 })
