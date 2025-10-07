@@ -18,7 +18,7 @@ await axios.get(`${import.meta.env.VITE_BASE_URL}/users/v3/api/logout` , {
       
    
   return (
-    <div>UserLogout</div>
+    <div></div>
   )
 }
 
